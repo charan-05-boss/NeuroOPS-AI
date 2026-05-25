@@ -1,0 +1,1 @@
+"""NeuroOps AI — core package"""

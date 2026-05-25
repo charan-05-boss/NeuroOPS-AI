@@ -1,0 +1,15 @@
+node_modules
+venv
+.env
+dist
+build
+__pycache__
+*.pyc
+.DS_Store
+.antigravity-ide
+.cache
+coverage
+.next
+out
+.idea
+.vscode

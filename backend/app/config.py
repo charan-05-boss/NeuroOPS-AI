@@ -26,7 +26,11 @@ class Settings(BaseSettings):
     api_port: int = 8000
 
     # CORS — comma-separated list in env, parsed here
-    cors_origins: str = "http://localhost:5173"
+    cors_origins: str = (
+        "http://localhost:5173,"
+        "https://neuro-ops-ai.netlify.app"
+    )
+
 
     @property
     def cors_origins_list(self) -> List[str]:

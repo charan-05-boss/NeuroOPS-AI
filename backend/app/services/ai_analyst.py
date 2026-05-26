@@ -105,13 +105,15 @@ class AIAnalyst:
 
         if provider == "gemini":
             try:
-                return await self._call_gemini(settings.gemini_api_key, prompt)
+                key: str = settings.gemini_api_key or ""
+                return await self._call_gemini(key, prompt)
             except Exception as exc:
                 logger.error("gemini_api_failed_falling_back_to_mock", error=str(exc))
                 return self._run_mock_analysis(snapshot, system_info)
         elif provider == "openai":
             try:
-                return await self._call_openai(settings.openai_api_key, prompt)
+                o_key: str = settings.openai_api_key or ""
+                return await self._call_openai(o_key, prompt)
             except Exception as exc:
                 logger.error("openai_api_failed_falling_back_to_mock", error=str(exc))
                 return self._run_mock_analysis(snapshot, system_info)
@@ -209,7 +211,7 @@ class AIAnalyst:
 
         # Active processes ratio
         if proc_run > 10:
-            suspicious.append(f"High active running process count ({proc_run}) relative to overall process pool.")
+            suspicious.append(f"High active running process count ({proc_run}) relative to overall process pool ({proc_total}).")
             recs.append("Check for process leakage, thread loops, or zombie background workers.")
 
         # Network anomalous traffic
@@ -351,13 +353,13 @@ class AIAnalyst:
                 
                 url = "https://api.openai.com/v1/chat/completions"
                 headers = {"Authorization": f"Bearer {settings.openai_api_key}", "Content-Type": "application/json"}
-                payload = {
+                o_payload: dict[str, object] = {
                     "model": "gpt-4o-mini",
                     "messages": messages,
                 }
                 
                 async with httpx.AsyncClient(timeout=15.0) as client:
-                    response = await client.post(url, headers=headers, json=payload)
+                    response = await client.post(url, headers=headers, json=o_payload)
                     response.raise_for_status()
                     data = response.json()
                     return data["choices"][0]["message"]["content"]

@@ -53,12 +53,12 @@ def get_cpu_model() -> str:
 
         elif system == "Windows":
             # On Windows, read registry key
-            import winreg
-            key = winreg.OpenKey(
-                winreg.HKEY_LOCAL_MACHINE,
+            import winreg # type: ignore
+            key = winreg.OpenKey( # type: ignore
+                winreg.HKEY_LOCAL_MACHINE, # type: ignore
                 r"HARDWARE\DESCRIPTION\System\CentralProcessor\0"
             )
-            brand, _ = winreg.QueryValueEx(key, "ProcessorNameString")
+            brand, _ = winreg.QueryValueEx(key, "ProcessorNameString") # type: ignore
             if brand:
                 return brand.strip()
     except Exception:  # noqa: BLE001

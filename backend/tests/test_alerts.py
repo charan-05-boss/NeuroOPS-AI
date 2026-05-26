@@ -2,7 +2,6 @@
 NeuroOps AI — Backend Tests: Alert Engine
 """
 from datetime import datetime
-import pytest
 from app.models.metrics import (
     SystemMetricsSnapshot,
     CpuMetrics,

@@ -230,5 +230,4 @@ async def _chat_with_custom_prompt(
             log.error("openai_chat_error", error=str(exc))
 
     # ── Mock fallback with full context awareness ──
-    from app.services.ai_analyst import ai_analyst
     return ai_analyst._run_mock_chat(message, snapshot)

@@ -3,7 +3,6 @@ NeuroOps AI — Alert Engine Service
 Rule-based alerting that evaluates the latest metrics snapshot against
 configurable thresholds and emits structured Alert objects.
 """
-from collections import deque
 from datetime import datetime
 from typing import Dict, List, Optional
 from uuid import UUID
@@ -21,16 +20,6 @@ from app.models.metrics import SystemMetricsSnapshot
 
 
 import structlog
-from app.config import get_settings
-from app.models.alerts import (
-    Alert,
-    AlertCategory,
-    AlertCreateRequest,
-    AlertListResponse,
-    AlertSeverity,
-    AlertStatus,
-)
-from app.models.metrics import SystemMetricsSnapshot
 
 logger = structlog.get_logger(__name__)
 

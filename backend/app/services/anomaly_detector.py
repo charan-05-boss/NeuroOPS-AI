@@ -3,10 +3,8 @@ NeuroOps AI — Anomaly Detector Service
 Uses sklearn's Isolation Forest on rolling metric history to flag anomalies
 without requiring labeled data (unsupervised).
 """
-from datetime import datetime
 from typing import List, Optional
 
-import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 

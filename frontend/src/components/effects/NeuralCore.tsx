@@ -7,7 +7,7 @@ import {
   Points,
   PointMaterial,
 } from '@react-three/drei'
-import { EffectComposer, Bloom, Noise, DepthOfField } from '@react-three/postprocessing'
+import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -273,13 +273,6 @@ export function NeuralCore() {
             luminanceSmoothing={0.9}
             intensity={0.8}
             mipmapBlur
-          />
-
-          <DepthOfField
-            focusDistance={0}
-            focalLength={0.02}
-            bokehScale={2}
-            height={480}
           />
 
           <Noise opacity={0.015} />

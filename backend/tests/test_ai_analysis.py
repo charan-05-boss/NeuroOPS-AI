@@ -1,7 +1,6 @@
 """
 NeuroOps AI — Backend Tests: AI Analyst Endpoint
 """
-import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app

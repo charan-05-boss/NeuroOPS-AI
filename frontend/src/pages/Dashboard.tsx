@@ -17,10 +17,10 @@ import { PageWrapper } from '@/components/layout/PageWrapper'
 import { MetricCard } from '@/components/shared/MetricCard'
 import { AlertBadge } from '@/components/shared/AlertBadge'
 
-import { CpuChart } from '@/components/charts/CpuChart'
-import { MemoryChart } from '@/components/charts/MemoryChart'
-import { NetworkChart } from '@/components/charts/NetworkChart'
-import { DiskChart } from '@/components/charts/DiskChart'
+//import { CpuChart } from '@/components/charts/CpuChart'
+//import { MemoryChart } from '@/components/charts/MemoryChart'
+//import { NetworkChart } from '@/components/charts/NetworkChart'
+//import { DiskChart } from '@/components/charts/DiskChart'
 
 import { useMetrics } from '@/hooks/useMetrics'
 import { useAlerts } from '@/hooks/useAlerts'
@@ -31,16 +31,16 @@ import { fmt } from '@/utils/formatters'
 import type { AiAnalysisResponse } from '@/types'
 
 export function Dashboard() {
-  const { current, history, systemInfo, isLoading, error } = useMetrics()
+  const { current, isLoading, error } = useMetrics()
 
   const { data: alertsData, dismissAlert } = useAlerts(2000)
 
-  const [aiResult, setAiResult] =
+  const [, setAiResult] =
     useState<AiAnalysisResponse | null>(null)
 
-  const [aiLoading, setAiLoading] = useState(false)
+  const [, setAiLoading] = useState(false)
 
-  const [aiError, setAiError] = useState<string | null>(null)
+  const [, setAiError] = useState<string | null>(null)
 
   const runAiAnalysis = async () => {
     setAiLoading(true)

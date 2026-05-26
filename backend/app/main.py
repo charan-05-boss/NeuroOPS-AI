@@ -1,6 +1,7 @@
 """
 NeuroOps AI — FastAPI Application Entrypoint
 """
+
 import asyncio
 
 import structlog
@@ -18,7 +19,10 @@ logger = structlog.get_logger(__name__)
 
 
 def create_app() -> FastAPI:
-    """Application factory — creates and configures the FastAPI instance."""
+    """
+    Application factory — creates and configures the FastAPI instance.
+    """
+
     setup_logging()
     settings = get_settings()
 
@@ -26,14 +30,25 @@ def create_app() -> FastAPI:
         title=settings.app_name,
         version=settings.app_version,
         description="AI-powered DevOps monitoring platform",
-        docs_url="/docs" if settings.debug or settings.app_env != "production" else None,
-        redoc_url="/redoc" if settings.debug or settings.app_env != "production" else None,
+        docs_url="/docs",
+        redoc_url="/redoc",
         openapi_url="/openapi.json",
     )
 
+    # Register middleware
     register_middleware(app)
+
+    # Register routers
     app.include_router(api_router)
     app.include_router(root_router)
+
+    # Root route for Vercel health check
+    @app.get("/")
+    async def health_check():
+        return {
+            "status": "success",
+            "message": "NeuroOPS API Running Successfully"
+        }
 
     @app.on_event("startup")
     async def startup_event() -> None:
@@ -43,36 +58,60 @@ def create_app() -> FastAPI:
             version=settings.app_version,
             environment=settings.app_env,
         )
-        # Seed history with a first collection
+
+        # Initial metrics collection
         system_monitor.collect()
-        # Start background metric collection loop
-        asyncio.create_task(_collect_metrics_loop(settings.metrics_collection_interval))
+
+        # Background metrics loop
+        asyncio.create_task(
+            _collect_metrics_loop(
+                settings.metrics_collection_interval
+            )
+        )
 
     @app.on_event("shutdown")
     async def shutdown_event() -> None:
         logger.info("shutdown", app=settings.app_name)
 
     @app.exception_handler(Exception)
-    async def global_exception_handler(request, exc: Exception) -> JSONResponse:
-        logger.error("unhandled_exception", exc=str(exc), path=request.url.path)
+    async def global_exception_handler(request, exc: Exception):
+        logger.error(
+            "unhandled_exception",
+            exc=str(exc),
+            path=request.url.path,
+        )
+
         return JSONResponse(
             status_code=500,
-            content={"detail": "Internal server error"},
+            content={
+                "detail": "Internal server error"
+            },
         )
 
     return app
 
 
 async def _collect_metrics_loop(interval: int) -> None:
-    """Background task: collect a metrics snapshot every `interval` seconds."""
+    """
+    Background task:
+    Collect system metrics continuously.
+    """
+
     from app.services.alert_engine import alert_engine
+
     while True:
         await asyncio.sleep(interval)
+
         try:
             snapshot = system_monitor.collect()
             alert_engine.evaluate(snapshot)
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("metric_collection_error", error=str(exc))
+
+        except Exception as exc:
+            logger.warning(
+                "metric_collection_error",
+                error=str(exc),
+            )
 
 
+# FastAPI app instance
 app = create_app()

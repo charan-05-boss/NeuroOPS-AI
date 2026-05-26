@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from 'react'
 import { Cpu, HardDrive, Network, Zap, AlertTriangle, CheckCircle, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -251,7 +251,7 @@ export function Dashboard() {
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3 py-3">
                     <div className="h-6 w-2/3 rounded-lg animate-pulse" style={{ background: 'rgba(255,255,255,0.04)' }} />
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                      {[0,1,2].map(i => <div key={i} className="h-24 rounded-xl animate-pulse" style={{ background: 'rgba(255,255,255,0.03)' }} />)}
+                      {[0, 1, 2].map(i => <div key={i} className="h-24 rounded-xl animate-pulse" style={{ background: 'rgba(255,255,255,0.03)' }} />)}
                     </div>
                   </motion.div>
                 )}
@@ -402,7 +402,7 @@ export function Dashboard() {
                     </div>
                   ) : (
                     <div className="space-y-2.5 max-h-[250px] overflow-y-auto pr-1">
-                      {activeAlerts.slice(0, 3).map((alert) => (
+                      {activeAlerts.slice(0, 3).map((alert: { id: Key | null | undefined; severity: string; title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; message: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined }) => (
                         <div
                           key={alert.id}
                           className="p-3.5 rounded-xl flex items-start justify-between gap-3 transition-all duration-300 hover:border-slate-600"
@@ -412,15 +412,14 @@ export function Dashboard() {
                           }}
                         >
                           <div className="flex items-start gap-2.5 min-w-0">
-                            <AlertTriangle className={`w-4 h-4 shrink-0 mt-0.5 ${
-                              alert.severity === 'critical' ? 'text-rose-400' :
+                            <AlertTriangle className={`w-4 h-4 shrink-0 mt-0.5 ${alert.severity === 'critical' ? 'text-rose-400' :
                               alert.severity === 'warning' ? 'text-amber-400' :
-                              'text-fuchsia-400'
-                            }`} style={{
-                              filter: alert.severity === 'critical'
-                                ? 'drop-shadow(0 0 4px rgba(244,63,94,0.5))'
-                                : undefined,
-                            }} />
+                                'text-fuchsia-400'
+                              }`} style={{
+                                filter: alert.severity === 'critical'
+                                  ? 'drop-shadow(0 0 4px rgba(244,63,94,0.5))'
+                                  : undefined,
+                              }} />
                             <div className="min-w-0">
                               <div className="flex items-center gap-2 flex-wrap mb-0.5">
                                 <span className="text-xs font-semibold text-white truncate">{alert.title}</span>

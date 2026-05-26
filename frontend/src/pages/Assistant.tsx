@@ -6,7 +6,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Send, Bot, User, Sparkles, Terminal, Zap, Cpu, MemoryStick,
+  Send, Bot, User, Sparkles, Zap, Cpu, MemoryStick,
   HardDrive, Radio, Trash2, Copy, Check, ChevronRight, Activity,
   ShieldAlert, TrendingUp, AlertTriangle, BrainCircuit,
 } from 'lucide-react'
@@ -525,38 +525,6 @@ export function Assistant() {
               </div>
             </div>
 
-            {/* How it works */}
-            <div className="card p-5">
-              <p className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-3 flex items-center gap-1.5">
-                <Terminal size={10} className="text-slate-400" /> How Copilot Works
-              </p>
-              <div className="space-y-2.5 text-[10px] text-slate-400 leading-relaxed">
-                {[
-                  { dot: 'bg-[#F2EFE7]',  text: 'Injects live CPU, RAM, disk & network metrics into every prompt' },
-                  { dot: 'bg-amber-400',  text: 'Reads active alert history to explain current warnings' },
-                  { dot: 'bg-[#BA1A6A]', text: 'Uses ML prediction context — trend direction, stability score, overload probability' },
-                  { dot: 'bg-emerald-400',text: 'Answers with full situational awareness, not generic responses' },
-                ].map(({ dot, text }, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <span className={`w-1.5 h-1.5 rounded-full ${dot} mt-1 flex-shrink-0`} />
-                    <span>{text}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-3 pt-3 space-y-1.5 text-[10px]" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-                {[
-                  ['Context Sources', '3 (metrics · alerts · predictions)'],
-                  ['Provider',        'Gemini / OpenAI / Heuristic'],
-                  ['History depth',   'Last 20 messages'],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex justify-between">
-                    <span className="text-slate-600">{k}</span>
-                    <span className="text-slate-300 font-semibold">{v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </PageWrapper>

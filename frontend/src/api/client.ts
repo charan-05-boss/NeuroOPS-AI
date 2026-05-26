@@ -4,7 +4,9 @@
  */
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000/api/v1'
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://neuro-ops-ai.vercel.app/api/v1'
 // Derive root URL by stripping '/api/v1' from the end of the base URL
 const ROOT_URL = BASE_URL.replace(/\/api\/v1\/?$/, '')
 
